@@ -1,0 +1,11 @@
+sudo: required
+services: 
+  - docker
+
+before_install:
+  - docker build -t jayampathi/docker/travis-demo -f Dockerfile.dev .
+
+# all the commands need to be run tests are executed
+# if return any value other than 0 assumes build failure
+script:
+  - docker run -e CI=true jayampathi/docker/travis-demo npm run test
