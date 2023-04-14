@@ -1,4 +1,5 @@
 sudo: required
+language: generic
 services: 
   - docker
 
@@ -29,8 +30,8 @@ deploy:
     # only deploy for master branch changes
 
   access_key_id: $AWSaccesskey
-  secret_access_key: "$AWSSecretAccessKey"
+  secret_access_key: $AWSSecretAccessKey
 
-# after_deploy:
-#   - "echo 'ready?'"
-#   - docker ps -a
+after_deploy:
+  - "echo 'ready?'"
+  - docker ps -a
