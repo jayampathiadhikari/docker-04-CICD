@@ -4,12 +4,18 @@ services:
 
 before_install:
   - docker build -t jayampathi/docker/travis-demo -f Dockerfile.dev .
+  - docker ps -a
 
 # all the commands need to be run tests are executed
 # if return any value other than 0 assumes build failure
 
 script:
   - docker run -e CI=true jayampathi/docker/travis-demo npm run test
+
+before_deploy:
+  - echo "Deploying files:"
+  - find . -type f -iname "*" ! -iname "*.md" ! -iname "*.yml" ! -iname "*.json" ! -iname "*.lock" ! -iname "LICENSE" ! -iname "README*" ! -iname "Dockerfile" -print
+  - docker ps -a
 
 deploy:
   provider: elasticbeanstalk
@@ -24,3 +30,7 @@ deploy:
 
   access_key_id: $AWSaccesskey
   secret_access_key: "$AWSSecretAccessKey"
+
+after_deploy:
+  - "echo 'ready?'"
+  - docker ps -a
