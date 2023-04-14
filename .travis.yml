@@ -7,5 +7,20 @@ before_install:
 
 # all the commands need to be run tests are executed
 # if return any value other than 0 assumes build failure
+
 script:
   - docker run -e CI=true jayampathi/docker/travis-demo npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "dockerapp"
+  env: "Dockerapp-env"
+  bucket_name: "elasticbeanstalk-us-east-2-835489852298"
+  bucket_path: "dockerapp"
+  on:
+    branch: master
+    # only deploy for master branch changes
+
+  access_key_id: $AWSaccesskey
+  secret_access_key: "$AWSSecretAccessKey"
