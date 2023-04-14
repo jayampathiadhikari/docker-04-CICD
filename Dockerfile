@@ -12,6 +12,8 @@ RUN npm run build
 # RUN Phase
 
 FROM nginx
+# expose 
+EXPOSE 80
 # copy from another phase
 COPY --from=builder /app/build /usr/share/nginx/html
 # no need for start command in nginx
